@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>青岛国际创新园楼盘出租价格</title>
+    <!-- 引入 echarts.js -->
+    <script src="js/jquery.js"></script>
+    <script src="js/echarts.min.js"></script>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 600px;height:400px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: '青岛国际创新园',
+                subtext: '总高&楼层',
+                left: 'center'
+            },
+            tooltip: {
+				trigger: 'axis',
+				axisPointer: {
+					type: 'shadow',
+					label: {
+						backgroundColor: '#6a7985'
+					}
+				}
+			},
+            toolbox: {
+				feature: {
+					saveAsImage: {}
+				}
+			},
+            legend: {
+                bottom: '0'
+            },
+            xAxis: {
+                data: []
+            },
+            yAxis: {},
+            series: [{
+                name: '单价',
+                type: 'bar',
+                data: []
+            }]
+        };
+		// 异步加载数据
+		$.get('an_business_bar.json').done(function (data) {
+			// 填入数据
+			myChart.setOption({
+				xAxis: {
+					data: data.categories
+				},
+				series: [{
+					// 根据名字对应到相应的系列
+					data: data.data
+				}]
+			});
+		});
+		// 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+</body>
+</html>
