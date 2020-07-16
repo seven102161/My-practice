@@ -40,7 +40,7 @@ class CrawlerTool(object):
         print('done')
         return proxy_list
 
-     @staticmethod  # 类方法
+    @staticmethod  # 类方法
     def write_to_excel(filename, sheet_name, word_list):
         '''
         写入excel
