@@ -10,44 +10,51 @@ def main(start_=1, end_=2):
     # global proxy_list
     url = 'https://per.spdb.com.cn/was5/web/search'
     headers = {
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        'Accept': 'application/json, text/javascript, */*; q=0.01',
-        'Accept-Encoding': 'gzip, deflate, br',
+        'Accept': 'application/json,text/javascript,*/*; q=0.01',
+        'Accept-Encoding': 'gzip,deflate,br',
         'Host': 'per.spdb.com.cn',
         'Origin': 'https://per.spdb.com.cn',
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.1 Safari/605.1.15',
-        'Referer': 'https://per.spdb.com.cn/bank_financing/cxpt/?TSPD_101=08e305e14cab28001708bd6fadff00237c46c1757eee754f04284e78610bc42494dffd13aa59f66481c546a5b6452f2c%3a',
+        'Referer': 'https://per.spdb.com.cn/bank_financing/cxpt/',
+        'Sec-Fetch-Dest': 'empty',
+        'Sec-Fetch-Mode': 'cors',
+        'Sec-Fetch-Site': 'same-origin',
         'Content-Length': '130',
+        'Cookie': 'Hm_lvt_e3386c9713baeb4f5230e617a0255dcb=1594911406; Hm_lpvt_e3386c9713baeb4f5230e617a0255dcb=1594913623; TSPD_101=08e305e14cab280028bae835ca7f8929000c47b90754572eaaf00fec4d6a78fd5c4ac36b0a068730230987d4eb69e84f:; JSESSIONID=2C2C1656A449CC05429F31835775724F; TS01d02f4c=01ea722d2a7cb3a8961af4de85eee1a2b5ae45e4dc308c282010d62676e18208437cedd97a997007e00544cc28a4a97f9f24a7f68b7c5fbb81b47fa4c384a7ca97fced1246',
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36',
         'X-Requested-With': 'XMLHttpRequest',
-        'Cookie': 'TS01d02f4c=01ea722d2aecb986ce4c6b7de590514941fdb89e69d77d578c2ab5400620dc56fa7e5d9406a2687454350467198ad348b344d5e504720f082e1a592c80327829c95b6a511f; JSESSIONID=FE31AA4607BA23361199992DD10E2367',
     }
     for i in range(start_, end_):
         pg = str(i)
-        params = {
+        data = {
             'metadata': 'pName|pCode|pType|pZpD|pGpS|pPub|pRisk|pPart|pMoney|pStatus|pForm',
             'channelid': '213326',
             'page': pg,
+            'searchword': "(pType='基金证券')",
         }
         # proxies = {
         #     'http': random.choice(proxy_list),
         # }
         try:
             # response = requests.post(url, headers=headers, data=data, proxies=proxies)
-            response = requests.post(url, headers=headers, params=params)
-            original_data = response.text
-            data_list = re.findall(r'{"pPub":".*?","pStatus":".*?","pPart":".*?","pName":".*?","pGpS":".*?","pCode":".*?","pZpD":".*?","pMoney":".*?","pRisk":".*?","pType":".*?","pForm":".*?"}', original_data, re.S)
-            print(f'page {pg} get, show first line as below:\n', {data_list[0]})
-            info_list.append(data_list)
-            time.sleep(1)
-            response.close()
-            time.sleep(random.randint(3, 6))
+            response = requests.post(url, headers=headers, data=data)
+            # print(response.status_code)
+            if response.status_code == 200:
+                original_data = response.text
+                data_list = re.findall(r'{"pPub":".*?","pStatus":".*?","pPart":".*?","pName":".*?","pGpS":".*?","pCode":".*?","pZpD":".*?","pMoney":".*?","pRisk":".*?","pType":".*?","pForm":".*?"}', original_data, re.S)
+                print(f'page {pg} get, show first line as below:\n', {data_list[0]})
+                info_list.append(data_list)
+                time.sleep(1)
+                response.close()
+                time.sleep(random.randint(3, 6))
+            else:
+                print(response.status_code)
         except Exception as e:
             print(e)
 
 
 if __name__ == '__main__':
     # proxy_list = CrawlerTool.get_proxy()
-    # print(proxy_list)
+    # print(len(proxy_list))
     info_list = []
     main()
     # CrawlerTool.write_to_json('spdb_data_original.json', info_list)

@@ -36,8 +36,9 @@ class CrawlerTool(object):
                 proxy = 'http://' + ip + ':' + port
                 print(proxy)
                 proxy_list.append(proxy)
-            time.sleep(10)
-        print('done')
+            print('get proxy ip:', len(proxy_list))
+            if page > 1:
+                time.sleep(10)
         return proxy_list
 
     @staticmethod  # 类方法
