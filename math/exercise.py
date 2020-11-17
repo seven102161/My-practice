@@ -7,8 +7,8 @@ print('题目', ',', '答案')
 print()
 
 while count > 0:
-    x = random.randint(0, 21)
-    y = random.randint(0, 21)
+    x = random.randint(0, 31)
+    y = random.randint(0, 31)
     if y > x:
         continue
     sym_list = ['+', '-']
