@@ -1,72 +1,107 @@
 import random
+import pandas as pd
+import openpyxl
+from xlwt import Workbook
 
 
 def addition_subtraction(min_, max_):
-    count = 25
-
-    while count > 0:
-        x1 = random.randint(min_, max_)
-        y1 = random.randint(min_, max_)
-        x2 = random.randint(min_, max_)
-        y2 = random.randint(min_, max_)
-        if y1 > x1 or y2 > x2:
-            continue
-        sym_list = ['1', '2']
-        sym = random.choice(sym_list)
-        if sym == '1':
-            result1 = x1 + y1
-            result2 = x2 + y2
-            print(x1, '+', y1, '=', '______', ',', x2, '+', y2, '=', '______', ',', result1, ',', result2)
-            print()
-
+    x = random.randint(min_, max_)
+    y = random.randint(min_, max_)
+    sym_list = ['1', '2']
+    sym = random.choice(sym_list)
+    if sym == '1':
+        res = x + y
+        ques = '{} + {} = ______'.format(x, y)
+        ans = str(res)
+    else:
+        if x > y:
+            res = x - y
+            ques = '{} - {} = ______'.format(x, y)
+            ans = str(res)
         else:
-            result1 = x1 - y1
-            result2 = x2 - y2
-            print(x1, '-', y1, '=', '______', ',', x2, '-', y2, '=', '______', ',', result1, ',', result2)
-            print()
-
-        count -= 1
+            res = y - x
+            ques = '{} - {} = ______'.format(y, x)
+            ans = str(res)
+    return ques, ans
 
 
 def multiplication_division(min_, max_):
-    count = 25
+    x = random.randint(min_, max_)
+    y = random.randint(min_, max_)
+    sym_list = ['3', '4']
+    sym = random.choice(sym_list)
+    res = x * y
+    if sym == '3':
+        ques = '{} x {} = ______'.format(x, y)
+        ans = str(res)
+    else:
+        ques = '{} ÷ {} = ______'.format(res, x)
+        ans = str(y)
 
-    # print('题目1', ',', '题目2', ',', '答案1', ',', '答案2')
+    return ques, ans
 
-    while count > 0:
-        x1 = random.randint(min_, max_)
-        y1 = random.randint(min_, max_)
-        x2 = random.randint(min_, max_)
-        y2 = random.randint(min_, max_)
 
-        result1 = x1 * y1
-        result2 = x2 * y2
+def ques_add():
+    lst_ques1 = list()
+    lst_ques2 = list()
+    lst_ques3 = list()
+    lst_ques4 = list()
+    for _i in range(25):
+        lst_ques1.append(' ')
+        lst_ques1.append(addition_subtraction(3, 30)[0])
+        lst_ques2.append(' ')
+        lst_ques2.append(addition_subtraction(3, 30)[0])
+        lst_ques3.append(' ')
+        lst_ques3.append(addition_subtraction(3, 30)[0])
+        lst_ques4.append(' ')
+        lst_ques4.append(addition_subtraction(3, 30)[0])
 
-        sym_list = ['3', '4']
-        sym = random.choice(sym_list)
+    data = dict()
+    data['题目1'] = lst_ques1
+    data['题目2'] = lst_ques2
+    data['题目3'] = lst_ques3
+    data['题目4'] = lst_ques4
 
-        if sym == '3':
-            ques = f'{x1} x {y1} = ______,{x2} x {y2} = ______,{result1},{result2}\n'
-        else:
-            ques = f'{result1} ÷ {x1} = ______,{result2} ÷ {x2} = ______,{y1},{y2}\n'
+    index = [i + 1 for i in range(len(lst_ques1))]
+    df = pd.DataFrame(data=data, index=index)
+    return df
 
-        count -= 1
-        return ques
+
+def ques_multi():
+    lst_ques1 = list()
+    lst_ques2 = list()
+    lst_ques3 = list()
+    lst_ques4 = list()
+    for _i in range(25):
+        lst_ques1.append(' ')
+        lst_ques1.append(multiplication_division(3, 9)[0])
+        lst_ques2.append(' ')
+        lst_ques2.append(multiplication_division(3, 9)[0])
+        lst_ques3.append(' ')
+        lst_ques3.append(multiplication_division(3, 9)[0])
+        lst_ques4.append(' ')
+        lst_ques4.append(multiplication_division(3, 9)[0])
+
+    data = dict()
+    data['题目1'] = lst_ques1
+    data['题目2'] = lst_ques2
+    data['题目3'] = lst_ques3
+    data['题目4'] = lst_ques4
+
+    index = [i + 1 for i in range(len(lst_ques1))]
+    df = pd.DataFrame(data=data, index=index)
+    return df
 
 
 if __name__ == '__main__':
-    with open('abc.csv', 'w') as f:
-        for _i in range(2):
-            line1 = f'乘除,page{_i + 1},,page{_i + 1}\n'
-            f.write(line1)
-            f.write(multiplication_division(3, 9))
-        f.close()
-    # for _i in range(2):
-    #     print('加减', ',', 'page', _i + 1, ',', ',', 'page', _i + 1)
-    #     print()
-    #     addition_subtraction(0, 31)
-    # for _i in range(2):
-    #     print('乘除', ',', 'page', _i + 1, ',', ',', 'page', _i + 1)
-    #     print()
-    #     multiplication_division(3, 9)
-
+    df1 = ques_add()
+    print(df1)
+    df2 = ques_multi()
+    print(df2)
+    writer = pd.ExcelWriter('C:\\Users\\admin\\Desktop\\math.xlsx')
+    df1.to_excel(writer, columns=['题目1', '题目2', '题目3', '题目4'],
+                 index=False, encoding='utf-8', sheet_name='Sheet1')
+    df2.to_excel(writer, columns=['题目1', '题目2', '题目3', '题目4'],
+                 index=False, encoding='utf-8', sheet_name='Sheet2')
+    writer.save()
+    writer.close()
