@@ -101,7 +101,7 @@ def write_to_excel(sheet_name, ques_data):
     for _j in range(len(head)):
         worksheet.write(0, _j, head[_j], style)  # 第0行，第i列，第i列表头
         # 设置列宽
-        worksheet.col(_j).width = 18 * 256
+        worksheet.col(_j).width = 22 * 256
 
     for _j in range(len(head)):
         q_data = ques_data
@@ -110,7 +110,7 @@ def write_to_excel(sheet_name, ques_data):
             worksheet.write(_i + 1, _j, q_list[_i], style)
             # 设置单元格高度
             worksheet.row(_i + 1).height_mismatch = True
-            worksheet.row(_i + 1).height = 600
+            worksheet.row(_i + 1).height = 550
 
 
 if __name__ == '__main__':
