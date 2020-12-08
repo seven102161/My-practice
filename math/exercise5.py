@@ -121,3 +121,5 @@ if __name__ == '__main__':
     # 写入乘除法sheet
     write_to_excel('乘除法', ques_multi())
     workbook.save('/Users/jiangzhiyi/Desktop/math.xls')
+    # # windows保存路径
+    # workbook.save(r'C:\Users\admin\Desktop\math.xls')
