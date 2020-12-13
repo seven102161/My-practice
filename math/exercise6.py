@@ -39,42 +39,24 @@ def multiplication_division(min_, max_):
     return ques, ans
 
 
-def ques_sheet1():
-    lst_ques1 = list()
-    lst_ques2 = list()
-    lst_ques3 = list()
-    lst_ques4 = list()
-    for _i in range(25):
-        lst_ques1.append(addition_subtraction(3, 30)[0])
-        lst_ques2.append(addition_subtraction(3, 30)[0])
-        lst_ques3.append(addition_subtraction(3, 30)[0])
-        lst_ques4.append(addition_subtraction(3, 30)[0])
-
+def ques_sheet(type_, min_, max_):
     data = dict()
-    data['题目1'] = lst_ques1
-    data['题目2'] = lst_ques2
-    data['题目3'] = lst_ques3
-    data['题目4'] = lst_ques4
+    count = 1
+    if type_ == '加减':
+        for _i in range(4):
+            lst_ques = list()
+            for _j in range(25):
+                lst_ques.append(addition_subtraction(min_, max_)[0])
+            data['题目{}'.format(str(count))] = lst_ques
+            count += 1
 
-    return data
-
-
-def ques_sheet2():
-    lst_ques1 = list()
-    lst_ques2 = list()
-    lst_ques3 = list()
-    lst_ques4 = list()
-    for _i in range(25):
-        lst_ques1.append(addition_subtraction(20, 50)[0])
-        lst_ques2.append(multiplication_division(3, 9)[0])
-        lst_ques3.append(multiplication_division(3, 9)[0])
-        lst_ques4.append(multiplication_division(3, 9)[0])
-
-    data = dict()
-    data['题目1'] = lst_ques1
-    data['题目2'] = lst_ques2
-    data['题目3'] = lst_ques3
-    data['题目4'] = lst_ques4
+    elif type_ == '乘除':
+        for _i in range(4):
+            lst_ques = list()
+            for _j in range(25):
+                lst_ques.append(multiplication_division(min_, max_)[0])
+            data['题目{}'.format(str(count))] = lst_ques
+            count += 1
 
     return data
 
@@ -113,9 +95,8 @@ if __name__ == '__main__':
     # 创建workbook
     workbook = xlwt.Workbook(encoding='utf-8')
     # 写入法减法sheet
-    write_to_excel('加减', ques_sheet1())
+    write_to_excel('加减法', ques_sheet('加减', 3, 30))
     # 写入乘除法sheet
-    write_to_excel('混合', ques_sheet2())
+    write_to_excel('乘除法', ques_sheet('乘除', 3, 9))
     # macos保存路径/  windows保存路径：(r'C:\Users\admin\Desktop\math.xls')
     workbook.save('/Users/jiangzhiyi/Desktop/math.xls')
-
