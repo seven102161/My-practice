@@ -110,12 +110,12 @@ def write_to_excel(sheet_name, ques_data):
 
 
 if __name__ == '__main__':
-    # 创建workbook
-    workbook = xlwt.Workbook(encoding='utf-8')
-    # 写入法减法sheet
-    write_to_excel('加减', ques_sheet1())
-    # 写入乘除法sheet
-    write_to_excel('混合', ques_sheet2())
-    # macos保存路径/  windows保存路径：(r'C:\Users\admin\Desktop\math.xls')
-    workbook.save('/Users/jiangzhiyi/Desktop/math.xls')
-
+    for _i in range(7):
+        # 创建workbook
+        workbook = xlwt.Workbook(encoding='utf-8')
+        # 写入法减法sheet
+        write_to_excel('加减', ques_sheet1())
+        # 写入乘除法sheet
+        write_to_excel('混合', ques_sheet2())
+        # macos保存路径('/Users/jiangzhiyi/Desktop/math.xls')/  windows保存路径：(r'C:\Users\admin\Desktop\math.xls')
+        workbook.save(r'C:\Users\admin\Desktop\math\math({}).xls'.format(_i))
