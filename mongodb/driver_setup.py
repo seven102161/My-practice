@@ -1,13 +1,15 @@
 import pymongo
 from bson.json_util import dumps
 
-uri = 'mongodb+srv://m220student:m220password@mflix.smtxw.mongodb.net/<dbname>?retryWrites=true&w=majority'
+# uri = 'mongodb+srv://m220student:m220password@mflix.smtxw.mongodb.net/<dbname>?retryWrites=true&w=majority'
+uri = 'mongodb+srv://m220student:m220password@mflix.smtxw.mongodb.net/'
+
 
 # create client
 client = pymongo.MongoClient(uri)
 
 # # check connection
-# print(client.stats)
+print(client.stats)
 
 '''
 Database(MongoClient(host=['mflix-shard-00-00.smtxw.mongodb.net:27017',\
@@ -24,13 +26,13 @@ Database(MongoClient(host=['mflix-shard-00-00.smtxw.mongodb.net:27017',\
 '''
 
 # # use sample_mflix
-mflix = client.sample_mflix
+# mflix = client.sample_mflix
 # mflix = client['sample_mflix']  # or we can use dictionary accessors
 # # show collections
 # print(mflix.list_collection_names())
 # # ['sessions', 'users', 'movies', 'comments', 'theaters']
 
-movies = mflix.movies
+# movies = mflix.movies
 # # count documents
 # print(movies.count_documents({}))
 # # 23530
@@ -60,6 +62,4 @@ movies = mflix.movies
 # '''
 # # print(dumps(cursor, indent=4))
 
-cursor = movies.find({}, {"countries": 1, "_id": 0})
-print(dumps(cursor, indent=4))
 

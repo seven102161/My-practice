@@ -118,4 +118,4 @@ if __name__ == '__main__':
         # 写入乘除法sheet
         write_to_excel('混合', ques_sheet2())
         # macos保存路径('/Users/jiangzhiyi/Desktop/math.xls')/  windows保存路径：(r'C:\Users\admin\Desktop\math.xls')
-        workbook.save(r'C:\Users\admin\Desktop\math\math({}).xls'.format(_i))
+        workbook.save('/Users/jiangzhiyi/desktop/math/math({}).xls'.format(_i))
